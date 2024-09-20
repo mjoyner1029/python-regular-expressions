@@ -1,12 +1,19 @@
 import re
 
+def extract_emails(text, exclude_domain):
+    # Create a regex pattern that excludes the specified domain
+    pattern = r"\b[A-Za-z0-9._%+-]+@(?!{})[A-Za-z0-9.-]+\.[A-Za-z]{{2,}}\b".format(re.escape(exclude_domain))
+    
+    # Find all matching emails in the text
+    emails = re.findall(pattern, text)
+    return emails
+
+# Sample text containing email addresses
 text = "Emails: user1@domain.com, user2@exclude.com, user3@domain.com"
+
+# Specify the domain to exclude
 exclude_domain = "exclude.com"
 
-# Use f-string to correctly format the regex pattern
-pattern = rf'\b[A-Za-z0-9._%+-]+@(?!{re.escape(exclude_domain})\b[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
-
-# Find all email addresses except those from 'exclude_domain'
-emails = re.findall(pattern, text)
-
-print(emails)
+# Call the function and print the results
+valid_emails = extract_emails(text, exclude_domain)
+print("Extracted Emails:", valid_emails)
